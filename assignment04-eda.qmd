@@ -1,0 +1,165 @@
+---
+title: "Assignment 4: Exploratory Data Analysis"
+author: "Amber Camp"
+date: "`r Sys.Date()`"
+format: html
+editor: visual
+---
+
+## Overview
+
+Due: **Sunday, 9/28 11:59pm**
+
+In this assignment, you will practice Exploratory Data Analysis (EDA) by making plots from a **Kaggle dataset of your choice**.
+
+You will submit **at least 4 different plot types**, with short written interpretations for each.
+
+Part 1 is worth a total of 1 point, and Part 2 is worth 4 points (1 point for each plot & interpretation).
+
+## Part 1: Get Your Data
+
+1.  Go to [Kaggle Datasets](https://www.kaggle.com/datasets), create an account, and choose a dataset that interests you. Ensure your data has:
+    1.  At least 4 variables
+    2.  At least one categorical and one continuous variable
+    3.  I recommend data that contains at least 50-100 observations
+    4.  Tip: Open the CSV on Kaggle first and skim the columns to check that it meets these requirements
+2.  Download the dataset as a CSV file.
+3.  Place the CSV in your class R project data folder.
+4.  Read it into R with `read_csv()`.
+
+```{r, message=FALSE}
+library(tidyverse)
+
+mydata <- read_csv("data/Sleep_health_and_lifestyle_dataset.csv")
+```
+
+### Describe your data
+
+Data author: Minahil Fatima
+
+Link:<https://www.kaggle.com/datasets/minahilfatima12328/lifestyle-and-sleep-patterns>
+
+Description: a dataset that shows the relationship between a persons lifestyle choices and how it effects the way they sleep
+
+### Preview your data
+
+Use some of the strategies you've learned in this class or picked up elsewhere to summarize and quickly explore your data.
+
+```{r}
+
+shelleys_relocate <- Sleep_health_and_lifestyle_dataset %>%
+relocate ("Sleep Duration", after = "Quality of Sleep")
+ summary("Sleep_health_and_lifestyle_dataset")
+ summary(mydata)
+
+
+```
+
+### Summary stats
+
+Before you make plots, you must also:
+
+-   Show basic summaries of your dataset, including:
+
+    -   `count()` for categorical variables (to see category frequencies)
+
+    -   `mean()`, `median()`, `sd()`, `min()`, `max()` for at least one numeric variable
+
+```{r}
+summary(mydata)
+table(Sleep_health_and_lifestyle_dataset$`Sleep Duration`)
+
+mean(Sleep_health_and_lifestyle_dataset$Age)
+median(Sleep_health_and_lifestyle_dataset$`Quality of Sleep`)
+sd(Sleep_health_and_lifestyle_dataset$`Person ID`)
+min(Sleep_health_and_lifestyle_dataset$`Physical Activity Level`)
+max(Sleep_health_and_lifestyle_dataset$`Stress Level`)
+```
+
+Write 2–3 sentences here: What do the category counts tell you? What does the numeric summary show about spread, center, or outliers?
+
+-   the category count shows the hours of sleep and the age for the hours recorded.
+
+-   spread: ages varying from 27 to 59, sleep duration varying from minimum of 5.8 hours to 8.5max hours and heart rate ranging from minimum of 65. to max of 85.
+
+## Part 2:
+
+Create **at least 4 plots**, each of a different type. At least one of your four plots must use different variables than the others.
+
+Each plot should have:
+
+-   A title and labeled axes
+
+-   A short interpretation (2-3 sentences) underneath
+
+Use the EDA Part 3 notes as your reference. Since this is an EDA assignment, your plots can be plain, but consider adding colors, themes, or interactivity for interpretability and visual appeal if you know how.
+
+### Plot 1
+
+```{r}
+ggplot(Sleep_health_and_lifestyle_dataset, 
+       aes(x = Gender, y = 'Sleep Duration', fill = Gender)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  theme_bw() +
+  scale_fill_viridis_d() +
+  labs(title = "Sleep Duration by Gender",
+       x = "Gender",
+       y = "Sleep Duration")
+
+```
+
+Interpretation: this graph, or boxplot is comparing the sleep duration based on genders.
+
+### Plot 2
+
+```{r}
+# insert code here
+ggplot(Sleep_health_and_lifestyle_dataset, 
+       aes(x = Occupation, fill = `Stress Level`)) +
+  geom_bar(position = "dodge") +
+  theme_bw() +
+  labs(title = 'stress level based on occupation') +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 7))
+
+  
+
+```
+
+Interpretation: this plot,or barplot is about stress and occupation. it basically shows the stress level based on the occupation
+
+### Plot 3
+
+```{r}
+# insert code here
+ggplot(Sleep_health_and_lifestyle_dataset, 
+       aes(x = Gender, y = `Sleep Duration`)) +
+  geom_boxplot(fill = "purple") +
+  theme_bw() +
+  labs(title = "Sleep Duration by Gender",
+       x = "Gender",
+       y = "Sleep Duration (hours)")
+
+
+```
+
+Interpretation: this boxplot is basically about gender and sleep duration by hour. it compares the two genders and how many hours of sleep they get.
+
+### Plot 4
+
+```{r}
+# insert code here
+ggplot(Sleep_health_and_lifestyle_dataset, 
+       aes(x = `Quality of Sleep`, y = `Sleep Duration`)) +
+  geom_point(color = "pink", alpha = 0.6) +
+  theme_bw() +
+  labs(title = "Scatterplot of Sleep Duration vs Quality of Sleep",
+       x = "Quality of Sleep",
+       y = "Sleep Duration (hours)")
+```
+
+Interpretation: this scatterplot is about quality of sleep and sleep duration. its basically about how good a person sleeps or how comfortable they are when they are to sleep and how many hours they sleep.
+
+## Push to GitHub to Submit!
+
+Assignment is due Sunday 9/28 at 11:59 pm.
